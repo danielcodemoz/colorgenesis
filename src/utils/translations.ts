@@ -6,8 +6,8 @@ export const translations: Translations = {
     pt: 'Extrator de Paleta de Cores'
   },
   subtitle: {
-    en: 'Extract beautiful color palettes from your images',
-    pt: 'Extraia belas paletas de cores das suas imagens'
+    en: 'Extract palettes from images, or generate one from a seed colour',
+    pt: 'Extrai paletas de imagens, ou gera uma a partir de uma cor semente'
   },
   uploadTitle: {
     en: 'Upload Your Image',
@@ -112,5 +112,53 @@ export const translations: Translations = {
   themes: {
     en: 'Themes',
     pt: 'Temas'
+  },
+  labsBrand: {
+    en: 'Daniel Marcos · Labs',
+    pt: 'Daniel Marcos · Labs'
+  },
+  orGenerate: {
+    en: 'or generate without an image',
+    pt: 'ou gera sem imagem'
+  },
+  randomPalette: {
+    en: 'Random harmony palette',
+    pt: 'Paleta aleatória (harmonia)'
+  },
+  randomPaletteHint: {
+    en: 'Picks a seed colour, then complementary / analogous / triadic',
+    pt: 'Escolhe uma cor semente e aplica complementar / análoga / tríade'
+  },
+  seedColor: {
+    en: 'Seed colour (optional)',
+    pt: 'Cor semente (opcional)'
+  },
+  harmonyType: {
+    en: 'Harmony',
+    pt: 'Harmonia'
+  },
+  allHarmonies: {
+    en: 'All (comp. + analogous + triadic)',
+    pt: 'Todas (comp. + análoga + tríade)'
+  },
+  contrastOn: {
+    en: 'Text on this swatch',
+    pt: 'Texto nesta amostra'
+  },
+  contrastWhite: {
+    en: 'white',
+    pt: 'branco'
+  },
+  contrastBlack: {
+    en: 'black',
+    pt: 'preto'
+  },
+  contrastFail: {
+    en: 'fails WCAG for body text',
+    pt: 'falha WCAG para texto corrido'
+  },
+  labNote: {
+    en: 'A lab, not a client product.',
+    pt: 'Laboratório, não um produto de cliente.'
   }
 };
