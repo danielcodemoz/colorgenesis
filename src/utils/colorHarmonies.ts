@@ -1,4 +1,4 @@
-import { ColorHarmony } from '../types';
+import { Color, ColorHarmony } from '../types';
 
 export class ColorHarmonyGenerator {
   static generateHarmonies(baseHex: string): ColorHarmony[] {
@@ -49,7 +49,76 @@ export class ColorHarmonyGenerator {
     return harmonies;
   }
 
-  private static hexToHsl(hex: string): [number, number, number] {
+  static randomHex(): string {
+    const h = Math.floor(Math.random() * 360);
+    const s = 52 + Math.floor(Math.random() * 38);
+    const l = 40 + Math.floor(Math.random() * 22);
+    return this.hslToHex([h, s, l]);
+  }
+
+  static hexToColor(hex: string, frequency = 1): Color {
+    const normalized = hex.startsWith('#') ? hex : `#${hex}`;
+    const rgb = this.hexToRgb(normalized);
+    const hsl = this.hexToHsl(normalized);
+    return {
+      hex: `#${normalized.slice(1).toUpperCase()}`,
+      rgb,
+      hsl,
+      frequency
+    };
+  }
+
+  static uniqueColorsFromHarmonies(harmonies: ColorHarmony[], types?: ColorHarmony['type'][]): Color[] {
+    const allow = types && types.length ? new Set(types) : null;
+    const seen = new Set<string>();
+    const colors: Color[] = [];
+    for (const harmony of harmonies) {
+      if (allow && !allow.has(harmony.type)) continue;
+      for (const hex of harmony.colors) {
+        const key = hex.toLowerCase();
+        if (seen.has(key)) continue;
+        seen.add(key);
+        colors.push(this.hexToColor(hex, 1 / (colors.length + 1)));
+      }
+    }
+    return colors;
+  }
+
+  static contrastRatio(hexA: string, hexB: string): number {
+    const l1 = this.relativeLuminance(hexA);
+    const l2 = this.relativeLuminance(hexB);
+    const hi = Math.max(l1, l2);
+    const lo = Math.min(l1, l2);
+    return (hi + 0.05) / (lo + 0.05);
+  }
+
+  static wcagHint(hex: string): { best: 'white' | 'black'; ratio: number; level: 'AAA' | 'AA' | 'AA-large' | 'fail' } {
+    const white = this.contrastRatio(hex, '#FFFFFF');
+    const black = this.contrastRatio(hex, '#000000');
+    const best = white >= black ? 'white' as const : 'black' as const;
+    const ratio = best === 'white' ? white : black;
+    const level = ratio >= 7 ? 'AAA' : ratio >= 4.5 ? 'AA' : ratio >= 3 ? 'AA-large' : 'fail';
+    return { best, ratio, level };
+  }
+
+  static relativeLuminance(hex: string): number {
+    const [r, g, b] = this.hexToRgb(hex).map((c) => {
+      const s = c / 255;
+      return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  }
+
+  static hexToRgb(hex: string): [number, number, number] {
+    const h = hex.replace('#', '');
+    return [
+      parseInt(h.slice(0, 2), 16),
+      parseInt(h.slice(2, 4), 16),
+      parseInt(h.slice(4, 6), 16)
+    ];
+  }
+
+  static hexToHsl(hex: string): [number, number, number] {
     const r = parseInt(hex.slice(1, 3), 16) / 255;
     const g = parseInt(hex.slice(3, 5), 16) / 255;
     const b = parseInt(hex.slice(5, 7), 16) / 255;
@@ -74,7 +143,7 @@ export class ColorHarmonyGenerator {
     return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)];
   }
 
-  private static hslToHex(hsl: [number, number, number]): string {
+  static hslToHex(hsl: [number, number, number]): string {
     const h = hsl[0] / 360;
     const s = hsl[1] / 100;
     const l = hsl[2] / 100;
