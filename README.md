@@ -1,23 +1,13 @@
 # Color Genesis
 
-Gerador de paletas de cores para UI e identidade visual.
+Gerador de paletas de cores — laboratório de Daniel Marcos (Maputo), não um produto de cliente.
 
-## Stack
+Extrai uma paleta a partir de uma imagem **ou** gera uma paleta aleatória de harmonia (complementar, análoga, tríade) sem carregar ficheiro. Língua predefinida: português. Clicar numa amostra copia o HEX. Cada amostra mostra um aviso de contraste WCAG.
 
-- Vite
-- React 18
-- TypeScript
-- Tailwind CSS
-- lucide-react, jsPDF
+Repositório: https://github.com/danielcodemoz/colorgenesis
 
-## Correr localmente
+Portfólio: https://danielpro.dev
 
-```bash
-npm install && npm run dev
-```
+Stack: Vite, React, TypeScript. Sem pasta docs/ nem dist/. Publicar páginas estáticas exige gerar o bundle de produção.
 
-## Autor
-
-Daniel Marcos — consultor de TI em Maputo. Lab público, não é produto de cliente.
-
-https://danielpro.dev
+Autor: Daniel Marcos, Maputo.
